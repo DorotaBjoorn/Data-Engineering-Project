@@ -1,6 +1,6 @@
 import pytest
 
-from newsfeed.dashboard import get_news_data
+from newsfeed.dashboard_main import get_news_data
 
 
 @pytest.mark.local_test("Run with 'pytest -m local_test tests/'")
