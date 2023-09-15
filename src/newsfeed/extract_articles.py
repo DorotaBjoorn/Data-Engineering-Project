@@ -11,12 +11,12 @@ from bs4 import BeautifulSoup
 from newsfeed.datatypes import BlogInfo
 
 
-def create_uuid_from_string(title):
+def create_uuid_from_string(title: str) -> str:
     assert isinstance(title, str)
     return str(uuid.uuid5(uuid.NAMESPACE_DNS, title))
 
 
-def load_metadata(blog_name):
+def load_metadata(blog_name:str) -> BeautifulSoup:
     metadata_path = Path("data/data_lake") / blog_name / "metadata.xml"
     with open(metadata_path) as f:
         xml_text = f.read()
@@ -26,7 +26,7 @@ def load_metadata(blog_name):
 
 
 # This function is detached and scrapes OpenAi blog in
-def extract_openai_articles(soup):
+def extract_openai_articles(soup: BeautifulSoup) -> list[BlogInfo]:
     articles = []
     blog_links = soup.find_all("a", {"class": "ui-link group relative cursor-pointer"})
     for link in blog_links:
@@ -68,7 +68,7 @@ def extract_openai_articles(soup):
     return articles
 
 
-def extract_articles_from_xml(parsed_xml: BeautifulSoup, blog_name):
+def extract_articles_from_xml(parsed_xml: BeautifulSoup, blog_name: str) -> list[BlogInfo]:
     articles = []
     if blog_name == "open_ai":
         soup = parsed_xml
@@ -114,7 +114,7 @@ def extract_articles_from_xml(parsed_xml: BeautifulSoup, blog_name):
     return articles
 
 
-def save_articles(articles, blog_name):
+def save_articles(articles: list[BlogInfo], blog_name: str) -> None:
     save_dir = Path("data/data_warehouse", blog_name, "articles")
     save_dir.mkdir(exist_ok=True, parents=True)
     for article in articles:
@@ -128,7 +128,7 @@ def save_articles(articles, blog_name):
             continue
 
 
-def main(blog_name):
+def main(blog_name: str) -> None:
     print(f"Processing {blog_name}")
     parsed_xml = load_metadata(blog_name)
     articles = extract_articles_from_xml(parsed_xml, blog_name=blog_name)

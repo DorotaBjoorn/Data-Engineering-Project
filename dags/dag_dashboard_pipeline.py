@@ -6,7 +6,7 @@ from newsfeed import (
     download_blogs_from_rss,
     extract_articles,
     summarize,
-    translation_model,
+    translate,
 )
 
 blogs_list = ["ai_blog"]  # TODO: add google_ai, mit #TODO: and open_ai if model "api" is to be used
@@ -33,7 +33,7 @@ def summarize_blogs_task() -> None:
 @task(task_id="translate_blogs")
 def translate_blogs_task() -> None:
     for blog in blogs_list:
-        translation_model.main(blog_name=blog)
+        translate.main(blog_name=blog)
 
 
 @dag(

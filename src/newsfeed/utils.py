@@ -33,24 +33,20 @@ source_dict = {
     "all_blogs": ["mit", "google_ai", "ai_blog", "open_ai"],
 }
 NEWS_ARTICLES_SUMMARY_SOURCES = {
-    "mit": Path(__file__).parent.parent.parent / f"data/data_warehouse/mit/summaries",
-    "google_ai": Path(__file__).parent.parent.parent / f"data/data_warehouse/google_ai/summaries",
-    "ai_blog": Path(__file__).parent.parent.parent / f"data/data_warehouse/ai_blog/summaries",
-    "open_ai": Path(__file__).parent.parent.parent / f"data/data_warehouse/open_ai/summaries",
+    "mit": Path("data/data_warehouse/mit/summaries"),
+    "google_ai": Path("data/data_warehouse/google_ai/summaries"),
+    "ai_blog": Path("data/data_warehouse/ai_blog/summaries"),
+    "open_ai": Path("data/data_warehouse/open_ai/summaries"),
 }
 NEWS_ARTICLES_ARTICLE_SOURCES = {
-    "mit": Path(__file__).parent.parent.parent / f"data/data_warehouse/mit/articles",
-    "google_ai": Path(__file__).parent.parent.parent / f"data/data_warehouse/google_ai/articles",
-    "ai_blog": Path(__file__).parent.parent.parent / f"data/data_warehouse/ai_blog/articles",
-    "open_ai": Path(__file__).parent.parent.parent / f"data/data_warehouse/open_ai/articles",
+    "mit": Path("data/data_warehouse/mit/articles"),
+    "google_ai": Path("data/data_warehouse/google_ai/articles"),
+    "ai_blog": Path("data/data_warehouse/ai_blog/articles"),
+    "open_ai": Path("data/data_warehouse/open_ai/articles"),
 }
 SWEDISH_NEWS_ARTICLES_SUMMARY_SOURCES = {
-    "mit": Path(__file__).parent.parent.parent
-    / f"data/data_svenska/data_warehouse/mit/sv_summaries",
-    "google_ai": Path(__file__).parent.parent.parent
-    / f"data/data_svenska/data_warehouse/google_ai/sv_summaries",
-    "ai_blog": Path(__file__).parent.parent.parent
-    / f"data/data_svenska/data_warehouse/ai_blog/sv_summaries",
-    "open_ai": Path(__file__).parent.parent.parent
-    / f"data/data_svenska/data_warehouse/open_ai/sv_summaries",
+    "mit": Path("data/data_svenska/data_warehouse/mit/sv_summaries"),
+    "google_ai": Path("data/data_svenska/data_warehouse/google_ai/sv_summaries"),
+    "ai_blog": Path("data/data_svenska/data_warehouse/ai_blog/sv_summaries"),
+    "open_ai": Path("data/data_svenska/data_warehouse/open_ai/sv_summaries"),
 }

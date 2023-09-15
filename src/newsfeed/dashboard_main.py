@@ -8,12 +8,12 @@ import pandas as pd
 from dash import Input, Output, State
 from dash.dependencies import Input, Output
 
-from newsfeed.article_item import (
+from newsfeed.dashboard_article_item import (
     dashboard_content_container,
     news_artcle_div,
     title_heading_for_dashboard,
 )
-from newsfeed.layout import layout
+from newsfeed.dashboard_layout import layout
 from newsfeed.utils import (
     NEWS_ARTICLES_ARTICLE_SOURCES,
     NEWS_ARTICLES_SUMMARY_SOURCES,
@@ -31,22 +31,15 @@ app.layout = layout
 server = app.server
 
 
-# This function takes reads the json files then returns a df of the said json file. This should
-# for example be a path for summaries json files
+# json -> dict -> [dict, dict, dict] -> df where each dict is a row
 def read_json_files_to_df(folder_path):
     df_list = []
-    # the os.listdir lists all the files in the folder/directory  specified by folder_path
-    # passed in the function
+    # os.listdir lists all files in directory specified by folder_path
     for filename in os.listdir(folder_path):
-        # Filter out non json files
         if filename.endswith(".json"):
-            # Here I attach each json file to the path of the folder_path
-            # such that i can read it as such .../articles/article.json
-            # then read the article and parse it this to a python object
             with open(os.path.join(folder_path, filename), "r") as f:
                 data = json.load(f)
                 df_list.append(data)
-    # return dataframe from the list of python objects
     return pd.DataFrame(df_list)
 
 
@@ -61,9 +54,8 @@ def get_news_data(news_blog_source="all_blogs", language="english", max_num_arti
     else:
         raise ValueError("Oops! Only english and swedish are the only supported languages!")
 
-    # Rest of the code remains largely the same
     if news_blog_source not in source_dict:
-        raise ValueError("Invalid choice. Use 'mit', 'google_ai', 'ai_blog', or 'all_blogs'")
+        raise ValueError("Invalid choice. Use 'mit', 'google_ai', 'ai_blog', 'open_ai' or 'all_blogs'")
 
     if news_blog_source == "all_blogs":
         df_list = []
@@ -120,7 +112,6 @@ def fetch_and_prepare_articles(language, df):
                     article_source=article_source,
                 )
             )
-
         else:
             raise ValueError(f"No matching additional info for Id: {unique_id}")
     return news_item_with_date
@@ -140,18 +131,14 @@ def blogs_df(selected_data_type):
     [State("language-store", "data")],
 )
 def update_language(n_clicks_english, n_clicks_swedish, data):
-    # get click context
     ctx = dash.callback_context
-
     # check if button is clicked and which button recieved a click event
     if not ctx.triggered_id or ctx.triggered_id == "None":
         raise dash.exceptions.PreventUpdate
-
     if "btn-english" in ctx.triggered_id:
         data["language"] = "english"
     elif "btn-swedish" in ctx.triggered_id:
         data["language"] = "swedish"
-
     return data
 
 
@@ -166,7 +153,6 @@ def update_language(n_clicks_english, n_clicks_swedish, data):
 )
 def display_blogs(choice, language_data, n_clicks, blogs_data, search_query):
     language = language_data.get("language", "english")
-    # return max number of articles to return based on search query
     if search_query:
         max_articles_to_return = 100
     else:
@@ -181,15 +167,10 @@ def display_blogs(choice, language_data, n_clicks, blogs_data, search_query):
         return "No title", "No Summary"
 
     news_item_with_date = fetch_and_prepare_articles(language, news_data)
-
-    heading = title_heading_for_dashboard(heading="The Midjourney Journal")
-
-    # Sort articles based on date
     sorted_news_item_with_date = sorted(news_item_with_date, key=lambda x: x["date"], reverse=True)
 
     if search_query:
         pattern = re.compile(search_query.replace(" ", "[-_ ]?"), re.IGNORECASE)
-
         sorted_news_item_with_date = [
             item
             for item in sorted_news_item_with_date
@@ -199,6 +180,7 @@ def display_blogs(choice, language_data, n_clicks, blogs_data, search_query):
     # Extract the sorted divs
     sorted_news_item = [item["div"] for item in sorted_news_item_with_date]
 
+    heading = title_heading_for_dashboard(heading="The Midjourney Journal")
     content = dashboard_content_container(sorted_news_item)
     return heading, content
 

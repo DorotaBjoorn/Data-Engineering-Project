@@ -15,13 +15,11 @@ def translate_initialised(text, model, tokenizer):
 
 
 def translate_summaries(blog_name):
-    # This defines which defines which language will be translated from and to
+    # en -> sv
     model_name = "Helsinki-NLP/opus-mt-en-sv"
 
-    # Initialises the model
-    model = MarianMTModel.from_pretrained(model_name)
-
     # Initialize translation model and tokenizer
+    model = MarianMTModel.from_pretrained(model_name)
     tokenizer = MarianTokenizer.from_pretrained(model_name)
 
     # Get Path with summaries
@@ -50,7 +48,6 @@ def translate_summaries(blog_name):
                 if isinstance(data[key], str):
                     data[key] = translate_initialised(data[key], model, tokenizer)
 
-            # Save updated JSON back to file
             save_path = path_swedish_summaries / filename
 
             # Save updated JSON back to file

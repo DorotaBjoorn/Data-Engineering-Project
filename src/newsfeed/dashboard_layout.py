@@ -118,11 +118,11 @@ def language_choice():
                         },
                         children=[
                             html.Button(
-                                "🇬🇧 English",
+                                "English",
                                 style={"padding": "8px", "marginRight": "15px"},
                                 id="btn-english",
                             ),
-                            html.Button("🇸🇪 Swedish", style={"padding": "8px"}, id="btn-swedish"),
+                            html.Button("Swedish", style={"padding": "8px"}, id="btn-swedish"),
                         ],
                     )
                 ],
