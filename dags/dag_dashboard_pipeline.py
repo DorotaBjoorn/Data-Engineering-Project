@@ -9,7 +9,7 @@ from newsfeed import (
     translate,
 )
 
-blogs_list = ["ai_blog"]  # TODO: add google_ai, mit #TODO: and open_ai if model "api" is to be used
+blogs_list = ["ai_blog", "mit", "open_ai"]
 
 
 @task(task_id="download_blogs")
@@ -27,7 +27,7 @@ def extract_blogs_task() -> None:
 @task(task_id="summarize_blogs")
 def summarize_blogs_task() -> None:
     for blog in blogs_list:
-        summarize.main(blog_name=blog, model_type="api")  # run local_model if api out of money
+        summarize.main(blog_name=blog, model_type="local_model")
 
 
 @task(task_id="translate_blogs")
@@ -39,7 +39,7 @@ def translate_blogs_task() -> None:
 @dag(
     dag_id="dashboard_pipline",
     start_date=datetime(2023, 6, 2),
-    schedule_interval="@daily",  # TODO: change to "*/5 * * * *" when pipeline is working
+    schedule_interval="@daily",
     catchup=False,
 )
 def pipeline():
